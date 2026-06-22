@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import Logo from './Logo'
+import { COMPANY } from '../config'
 import './Navbar.css'
 
 const services = [
-  { icon: '🥗', label: 'Healthy Catering', sub: 'Farm-fresh balanced menus', href: '#services' },
-  { icon: '🏢', label: 'Corporate Catering', sub: 'Daily office meal programs', href: '#services' },
-  { icon: '💪', label: 'Fitness Meal Plans', sub: 'Macro-optimized packages', href: '#meals' },
-  { icon: '👨‍👩‍👧', label: 'Family Meal Packages', sub: 'Wholesome family bundles', href: '#meals' },
-  { icon: '🎉', label: 'Private Events', sub: 'Intimate gatherings', href: '#services' },
-  { icon: '💍', label: 'Wedding Catering', sub: 'Elegant bridal feasts', href: '#services' },
-  { icon: '🍱', label: 'Weekly Meal Subscription', sub: 'Flexible weekly delivery', href: '#meals' },
-  { icon: '🥦', label: 'Custom Nutrition Plans', sub: 'Dietitian-crafted menus', href: '#meals' },
+  { icon: '🥗', label: 'Healthy Catering',        sub: 'Farm-fresh balanced menus',    href: '#services' },
+  { icon: '🏢', label: 'Corporate Catering',       sub: 'Daily office meal programs',   href: '#services' },
+  { icon: '💪', label: 'Fitness Meal Plans',        sub: 'Macro-optimized packages',     href: '#meals'    },
+  { icon: '👨‍👩‍👧', label: 'Family Meal Packages', sub: 'Wholesome family bundles',     href: '#meals'    },
+  { icon: '🎉', label: 'Private Events',            sub: 'Intimate gatherings',          href: '#services' },
+  { icon: '💍', label: 'Wedding Catering',          sub: 'Elegant bridal feasts',        href: '#services' },
+  { icon: '🍱', label: 'Weekly Meal Subscription', sub: 'Flexible weekly delivery',     href: '#meals'    },
+  { icon: '🥦', label: 'Custom Nutrition Plans',   sub: 'Dietitian-crafted menus',      href: '#meals'    },
 ]
 
 export default function Navbar() {
@@ -33,11 +34,36 @@ export default function Navbar() {
 
   return (
     <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
+      {/* Top contact bar — visible on scroll */}
+      <div className={`nav-topbar${scrolled ? ' topbar-visible' : ''}`}>
+        <div className="topbar-inner">
+          <a href={`tel:${COMPANY.phoneRaw}`} className="topbar-link">
+            <span className="topbar-icon">📞</span>
+            {COMPANY.phone}
+          </a>
+          <span className="topbar-divider">·</span>
+          <a href={`mailto:${COMPANY.email}`} className="topbar-link">
+            <span className="topbar-icon">✉</span>
+            {COMPANY.email}
+          </a>
+        </div>
+      </div>
+
       <div className="nav-inner">
         <a href="#hero" className="nav-logo" onClick={e => { e.preventDefault(); scrollTo('#hero') }}>
           <Logo size={42} />
           <span className="nav-logo-text">Balance</span>
         </a>
+
+        {/* Desktop contact info (shown when not scrolled) */}
+        <div className="nav-contact-hero">
+          <a href={`tel:${COMPANY.phoneRaw}`} className="nav-contact-link">
+            <span>📞</span> {COMPANY.phone}
+          </a>
+          <a href={`mailto:${COMPANY.email}`} className="nav-contact-link">
+            <span>✉</span> {COMPANY.email}
+          </a>
+        </div>
 
         <ul className="nav-links">
           {['#about','#services','#meals','#gallery','#testimonials'].map((href, i) => {
@@ -75,11 +101,15 @@ export default function Navbar() {
         </ul>
 
         <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
-          <span></span><span></span><span></span>
+          <span /><span /><span />
         </button>
       </div>
 
       <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
+        <div className="mobile-contacts">
+          <a href={`tel:${COMPANY.phoneRaw}`} className="mobile-contact-link">📞 {COMPANY.phone}</a>
+          <a href={`mailto:${COMPANY.email}`} className="mobile-contact-link">✉ {COMPANY.email}</a>
+        </div>
         {['About','Services','Meal Plans','Gallery','Testimonials'].map((label, i) => {
           const hrefs = ['#about','#services','#meals','#gallery','#testimonials']
           return <button key={label} className="mobile-link" onClick={() => scrollTo(hrefs[i])}>{label}</button>
